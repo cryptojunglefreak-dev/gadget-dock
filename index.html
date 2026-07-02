@@ -239,6 +239,8 @@ h1,h2,h3{font-family:'Space Grotesk',sans-serif;letter-spacing:-.02em;line-heigh
 .badge-value{background:#3b82f6;color:#fff}
 .badge-pro{background:#18181b;color:#fff}
 .badge-new{background:#18181b;color:var(--gold);border:1px solid var(--gold)}
+.badge-best{background:linear-gradient(90deg,#f0d97a,var(--gold) 50%,var(--blue));color:#111}
+.badge-sale{background:#e0392b;color:#fff}
 
 .card-body{padding:18px 18px 20px;display:flex;flex-direction:column;flex:1}
 .card-cat{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);margin-bottom:8px}
@@ -678,13 +680,35 @@ const PRODUCTS = [
   {
     name:"Bose SoundLink Plus",
     category:"Audio",
-    price:"$179",
+    price:"$179.00",
     description:"Waterproof, dustproof outdoor Bluetooth speaker with up to 20h battery.",
     badge:"NEW",
     stars:4.7,
     affiliateUrl:"https://amzn.to/4astD7o",
     store:"via Amazon",
     imageUrl:"assets/bose-soundlink-plus.jpg"
+  },
+  {
+    name:"Pioneer DJ DM-40D",
+    category:"Audio",
+    price:"$179.00",
+    description:"4-inch desktop monitor system — clean, punchy sound for home studios and DJ setups.",
+    badge:"BEST VALUE",
+    stars:4.7,
+    affiliateUrl:"https://amzn.to/4gPllds",
+    store:"via Amazon",
+    imageUrl:"assets/pioneer-dm-40d.jpg"
+  },
+  {
+    name:"Pioneer DJ DM-50D-BT (White)",
+    category:"Audio",
+    price:"$269.00",
+    description:"5-inch active desktop monitors with Bluetooth — pair for a full stereo studio.",
+    badge:"NEW",
+    stars:4.8,
+    affiliateUrl:"https://amzn.to/4eYVugJ",
+    store:"via Amazon",
+    imageUrl:"assets/pioneer-dm-50d.jpg"
   },
 
   /* ---------- DJ GEAR ---------- */
@@ -709,6 +733,39 @@ const PRODUCTS = [
     affiliateUrl:"https://amzn.to/4gRhMDy",
     store:"via Amazon",
     imageUrl:"assets/alphatheta-ddj-flx2.jpg"
+  },
+  {
+    name:"Pioneer DJ DDJ-FLX4",
+    category:"DJ Gear",
+    price:"$329.00",
+    description:"2-deck controller for rekordbox and Serato DJ — the go-to for leveling up.",
+    badge:"BEST VALUE",
+    stars:4.8,
+    affiliateUrl:"https://amzn.to/4vHdC5Q",
+    store:"via Amazon",
+    imageUrl:"assets/pioneer-ddj-flx4.jpg"
+  },
+  {
+    name:"AlphaTheta OMNIS-Duo",
+    category:"DJ Gear",
+    price:"$1,599.00",
+    description:"Portable, battery-powered all-in-one controller — play anywhere, no laptop needed.",
+    badge:"RICHIE'S PICK",
+    stars:4.8,
+    affiliateUrl:"https://amzn.to/4gSlqgt",
+    store:"via Amazon",
+    imageUrl:"assets/alphatheta-omnis-duo.jpg"
+  },
+  {
+    name:"Pioneer DJ XDJ-AZ",
+    category:"DJ Gear",
+    price:"$3,449.00",
+    description:"Pro 4-deck all-in-one system with 10.1\" touchscreen, Wi-Fi and SonicLink wireless.",
+    badge:"RICHIE'S BEST PICK",
+    stars:5.0,
+    affiliateUrl:"https://amzn.to/3SWZV4d",
+    store:"via Amazon",
+    imageUrl:"assets/pioneer-xdj-az.jpg"
   },
 
   /* ---------- POWER & ACCESSORIES ---------- */
@@ -761,13 +818,35 @@ const PRODUCTS = [
   {
     name:"Sony WH-1000XM5",
     category:"Lifestyle",
-    price:"$260",
+    price:"$260.00",
     description:"Premium noise cancelling with Auto NC Optimizer, 30h battery and Alexa voice control.",
     badge:"PRO CHOICE",
     stars:4.8,
     affiliateUrl:"https://amzn.to/4p9hIRR",
     store:"via Amazon",
     imageUrl:"assets/sony-wh1000xm5.jpg"
+  },
+  {
+    name:"Apple AirPods 4",
+    category:"Lifestyle",
+    price:"$99.00",
+    description:"Personalized Spatial Audio, H2 chip and up to 30h battery — effortless with iPhone.",
+    badge:"BEST VALUE",
+    stars:4.7,
+    affiliateUrl:"https://amzn.to/3TdvzKR",
+    store:"via Amazon",
+    imageUrl:"assets/airpods-4.jpg"
+  },
+  {
+    name:"Beats Solo 4",
+    category:"Lifestyle",
+    price:"$149.95",
+    description:"On-ear wireless headphones with up to 50h battery and balanced sound — Apple & Android.",
+    badge:"-25%",
+    stars:4.6,
+    affiliateUrl:"https://amzn.to/4ePxNc5",
+    store:"via Amazon",
+    imageUrl:"assets/beats-solo-4.jpg"
   }
 
 ];
@@ -779,6 +858,7 @@ const PRODUCTS = [
 // Map badge text -> CSS class
 const BADGE_CLASS = {
   "RICHIE'S PICK":"badge-pick",
+  "RICHIE'S BEST PICK":"badge-best",
   "BEST VALUE":"badge-value",
   "PRO CHOICE":"badge-pro",
   "NEW":"badge-new"
@@ -800,8 +880,10 @@ function cardEl(p){
   el.className = 'card appear';
   el.dataset.category = p.category;
 
+  // discount labels like "-25%" / "SALE" auto-get the red sale style
+  const badgeCls = BADGE_CLASS[p.badge] || (/%|^-|sale|off/i.test(p.badge||'') ? 'badge-sale' : 'badge-new');
   const badge = p.badge
-    ? `<span class="badge ${BADGE_CLASS[p.badge]||'badge-new'}">${p.badge}</span>`
+    ? `<span class="badge ${badgeCls}">${p.badge}</span>`
     : '';
   const store = p.store
     ? `<div class="store">Where to buy: <b>${p.store}</b></div>`
